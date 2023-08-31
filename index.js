@@ -48,6 +48,8 @@ bot.on('message', (msg) => {
   }
 });
 
+bot.setWebhook('https://bot-telegram-g4o4pwocd-fillima.vercel.app/webhook');
+
 // Crie um servidor HTTP para receber as requisições
 createServer((req, res) => {
   if (req.method === 'POST') {
