@@ -1,9 +1,0 @@
-{
-    "routes": [
-      {
-        "src": "/webhook",
-        "dest": "/server.js"
-      }
-    ]
-  }
-  
