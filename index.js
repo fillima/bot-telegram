@@ -1,7 +1,8 @@
+const { createServer } = require('http');
 const TelegramBot = require('node-telegram-bot-api');
 
 // Token do seu bot
-const bot = new TelegramBot('6513097452:AAHpjg15mq9_g_hRKRqVqWG6wn5nNeGiUm4', { polling: true });
+const bot = new TelegramBot('6513097452:AAHpjg15mq9_g_hRKRqVqWG6wn5nNeGiUm4');
 
 // Estados da conversa
 const NOME = 1;
@@ -46,6 +47,24 @@ bot.on('message', (msg) => {
     delete userState[chatId];
   }
 });
+
+// Crie um servidor HTTP para receber as requisições
+createServer((req, res) => {
+  if (req.method === 'POST') {
+    let data = '';
+
+    req.on('data', chunk => {
+      data += chunk;
+    });
+
+    req.on('end', () => {
+      const update = JSON.parse(data);
+      bot.processUpdate(update);
+    });
+  }
+
+  res.end('OK');
+}).listen(3000);
 
 console.log("Bot está rodando...");
 
