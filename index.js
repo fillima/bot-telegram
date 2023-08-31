@@ -10,13 +10,17 @@ const MOTIVO = 2;
 // Armazenamento temporário dos dados do usuário
 const userState = {};
 
-// Comando /iniciar
+const grupoId = "-1001963857701"; // Substitua pelo ID do grupo real
+
+// Comando /novopedido
 bot.onText(/\/novopedido/, (msg) => {
-  const chatId = msg.chat.id;
-  userState[chatId] = {};
-  
-  bot.sendMessage(chatId, `Olá ${msg.from.first_name}, digite o nome de quem você gostaria que recebesse oração.`);
-  userState[chatId].state = NOME;
+  if (msg.chat.id !== grupoId) {
+    const chatId = msg.chat.id;
+    userState[chatId] = {};
+    
+    bot.sendMessage(chatId, `Olá ${msg.from.first_name}, digite o nome de quem você gostaria que recebesse oração.`);
+    userState[chatId].state = NOME;
+  }
 });
 
 // Função para receber o título
@@ -36,7 +40,6 @@ bot.on('message', (msg) => {
     bot.sendMessage(chatId, `Pedido de oração concluído:\n\n*Por quem vamos orar:* ${userState[chatId].nome}\n\n*Motivo:* ${userState[chatId].motivo}\n\nEnviaremos sua mensagem para o grupo *Todos IPUS*, para que possamos orar juntos`, {parse_mode: 'Markdown'});
 
     // Enviar os dados para um grupo específico
-    const grupoId = "-1001963857701"; // Substitua pelo ID do grupo real
     bot.sendMessage(grupoId, `#PedidoOração:\n\n*Por quem orar:* ${userState[chatId].nome}\n\n*Motivo:* ${userState[chatId].motivo}\n\n*Enviado por:* ${msg.from.first_name} ${msg.from.last_name}`, {parse_mode: 'Markdown'});
     
     // Limpar os dados do usuário
