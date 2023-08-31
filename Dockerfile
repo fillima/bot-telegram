@@ -13,5 +13,8 @@ RUN npm install
 # Copie o resto dos arquivos do projeto para o diretório de trabalho
 COPY . .
 
+# Expõe a porta TCP que o bot está ouvindo (por exemplo, a porta 3000)
+EXPOSE 3000
+
 # Defina o comando para iniciar a aplicação
 CMD ["node", "index.js"]
